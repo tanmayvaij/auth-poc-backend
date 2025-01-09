@@ -12,5 +12,9 @@ export const User = model(
       type: String,
       required: true,
     },
+    hash: {
+      type: String,
+      default: "",
+    },
   })
 );

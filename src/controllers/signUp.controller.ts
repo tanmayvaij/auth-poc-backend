@@ -8,7 +8,6 @@ export const signUp = async (
   res: Response
 ) => {
   try {
-    console.log("/auth/sign-up api called");
 
     // Checking if already the given email exists is database or not
     const userExists = await User.findOne({ email: req.body.email });
