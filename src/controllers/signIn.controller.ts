@@ -5,12 +5,12 @@ import { sign } from "jsonwebtoken";
 
 // Sign in request handler
 export const signIn = async (
-  req: Request<{}, {}, { email: string; password: string, hash: string }>,
+  req: Request<{}, {}, { email: string; password: string, hash: string, pin: string }>,
   res: Response
 ) => {
   try {
 
-    const { email, password, hash } = req.body
+    const { email, password, hash, pin } = req.body
 
     // Checking if the user with given email exists or not
     const userExist = await User.findOne({ email });
@@ -37,7 +37,7 @@ export const signIn = async (
       return;
     }
 
-    await User.findOneAndUpdate({ email }, { $set: { hash } })
+    await User.findOneAndUpdate({ email }, { $set: { hash, pin } })
 
     // Creating a payload
     const payload = { userId: userExist._id };
