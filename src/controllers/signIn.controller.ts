@@ -5,12 +5,15 @@ import { sign } from "jsonwebtoken";
 
 // Sign in request handler
 export const signIn = async (
-  req: Request<{}, {}, { email: string; password: string }>,
+  req: Request<{}, {}, { email: string; password: string, hash: string }>,
   res: Response
 ) => {
   try {
+
+    const { email, password, hash } = req.body
+
     // Checking if the user with given email exists or not
-    const userExist = await User.findOne({ email: req.body.email });
+    const userExist = await User.findOne({ email });
 
     // Throwing 404 not found error if user does not exist
     if (!userExist) {
@@ -22,7 +25,7 @@ export const signIn = async (
 
     // Comparing the passwords
     const passwordMatched = await compare(
-      req.body.password.trim(),
+      password.trim(),
       userExist.password
     );
 
@@ -33,6 +36,8 @@ export const signIn = async (
         .json({ status: false, message: "Invalid username or password" });
       return;
     }
+
+    await User.findOneAndUpdate({ email }, { $set: { hash } })
 
     // Creating a payload
     const payload = { userId: userExist._id };

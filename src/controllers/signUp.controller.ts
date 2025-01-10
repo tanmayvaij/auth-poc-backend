@@ -4,11 +4,14 @@ import { sign } from "jsonwebtoken";
 
 // Sign up request handler
 export const signUp = async (
-  req: Request<{}, {}, { email: string; password: string }>,
+  req: Request<
+    {},
+    {},
+    { email: string; password: string; hash: string; pin: string }
+  >,
   res: Response
 ) => {
   try {
-
     // Checking if already the given email exists is database or not
     const userExists = await User.findOne({ email: req.body.email });
 

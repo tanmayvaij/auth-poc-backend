@@ -16,5 +16,9 @@ export const User = model(
       type: String,
       default: "",
     },
+    pin: {
+      type: String,
+      default: ""
+    }
   })
 );
