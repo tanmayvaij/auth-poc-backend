@@ -18,6 +18,8 @@ services:
     environment:
       - MONGO_URI=mongodb://mongodb:27017/mypocdb
       - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - mongodb
     restart: unless-stopped
 
 volumes:
